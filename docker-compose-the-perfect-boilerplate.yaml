@@ -1,0 +1,54 @@
+services:
+  the-perfect-boilerplate-db:
+    container_name: the-perfect-boilerplate-db
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - the-perfect-boilerplate-db-data:/var/lib/postgresql/data
+    networks:
+      - the-perfect-boilerplate
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  the-perfect-boilerplate-backend:
+    image: ghcr.io/evedes/the-perfect-boilerplate/backend:latest
+    container_name: the-perfect-boilerplate-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      API_PORT: ${API_PORT}
+      DATABASE_HOST: the-perfect-boilerplate-db
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${POSTGRES_DB}
+      DATABASE_USER: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      the-perfect-boilerplate-db:
+        condition: service_healthy
+    networks:
+      - the-perfect-boilerplate
+
+  the-perfect-boilerplate-frontend:
+    container_name: the-perfect-boilerplate-frontend
+    image: ghcr.io/evedes/the-perfect-boilerplate/frontend:latest
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      API_URL: ${API_URL}
+    depends_on:
+      - the-perfect-boilerplate-backend
+    networks:
+      - the-perfect-boilerplate
+
+volumes:
+  the-perfect-boilerplate-db-data:
+
+networks:
+  the-perfect-boilerplate:
