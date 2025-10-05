@@ -10,7 +10,7 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col">
       <div className="flex flex-1 flex-col items-center justify-center gap-4">
         <Profile />
-        <span className="text-5xl">The Perfect Boilerplate</span>
+        <span className="text-2xl">The Perfect Boilerplate</span>
         <span className="text-xl">Landing Page</span>
         <span>{message}</span>
       </div>
