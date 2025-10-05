@@ -3,7 +3,7 @@ import Profile from "@/components/ui/Profile";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const response = await fetch(`${process.env.API_URL!}/api/v1`);
+  const response = await fetch(process.env.API_URL!);
 
   return (
     <main className="flex min-h-screen flex-col">

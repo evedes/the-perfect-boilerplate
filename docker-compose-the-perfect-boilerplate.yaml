@@ -12,6 +12,8 @@ services:
     restart: unless-stopped
     env_file:
       - .env.the-perfect-boilerplate
+    environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: "0"
     depends_on:
       - the-perfect-boilerplate-backend
 
