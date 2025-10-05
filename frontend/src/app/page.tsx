@@ -1,8 +1,21 @@
-export default function Home() {
+export default async function Home() {
+  const response = await fetch(process.env.API_URL!);
+
+  const { message = "", time = "" } = await response.json();
+
+  console.log(message, time);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-2">
-      <span className="text-2xl">The Perfect Boilerplate</span>
-      <span>&copy; 2025 &bull; Eduardo &quot;Edo&quot; Vedes</span>
+    <main className="flex min-h-screen flex-col">
+      <div className="flex flex-1 flex-col items-center justify-center gap-4">
+        <span className="text-2xl">The Perfect Boilerplate</span>
+        <span className="text-4xl">Landing Page</span>
+        <span>{message}</span>
+        <span>{time}</span>
+      </div>
+      <div className="flex h-24 items-center justify-center">
+        <span>&copy; 2025 &bull; Eduardo &quot;Edo&quot; Vedes</span>
+      </div>
     </main>
   );
 }

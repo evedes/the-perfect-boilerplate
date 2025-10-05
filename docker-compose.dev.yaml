@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:17
+    hostname: db
+    container_name: the-perfect-boilerplate-db
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    env_file:
+      - .env.database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    cap_add:
+      - SYS_NICE # disables logs `mbind: Operation not permitted`
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "root", "-d", "the-perfect-boilerplate"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - the-perfect-boilerplate-network
+  frontend:
+    image: node:24-alpine
+    hostname: frontend
+    container_name: the-perfect-boilerplate-frontend
+    command: sh -c "npm i -g pnpm && cd /app && pnpm install && pnpm dev"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - the-perfect-boilerplate-network
+  backend:
+    image: node:24-alpine
+    hostname: backend
+    container_name: the-perfect-boilerplate-backend
+    command: sh -c "npm i -g pnpm && cd /app && pnpm install && pnpm start:dev"
+    ports:
+      - 3001:3001
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - the-perfect-boilerplate-network
+volumes:
+  postgres_data:
+networks:
+  the-perfect-boilerplate-network:
+    driver: bridge

@@ -1,0 +1,22 @@
+{
+  "name": "the-perfect-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:up": "docker compose -f docker-compose.dev.yaml up",
+    "dev:down": "docker compose -f docker-compose.dev.yaml down --remove-orphans"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evedes/the-perfect-boilerplate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/evedes/the-perfect-boilerplate/issues"
+  },
+  "homepage": "https://github.com/evedes/the-perfect-boilerplate#readme"
+}
