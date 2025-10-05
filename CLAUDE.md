@@ -9,7 +9,7 @@ This is a full-stack monorepo boilerplate with:
 - **Backend**: NestJS 11 (TypeScript)
 - **Database**: PostgreSQL 17
 - **Container Orchestration**: Docker Compose
-- **Package Manager**: pnpm with workspaces
+- **Package Manager**: npm
 
 ## Development Environment
 
@@ -17,10 +17,10 @@ This is a full-stack monorepo boilerplate with:
 
 ```bash
 # Start all services (frontend, backend, database)
-pnpm dev:up
+npm run dev:up
 
 # Stop all services
-pnpm dev:down
+npm run dev:down
 ```
 
 The Docker Compose setup:
@@ -32,18 +32,18 @@ The Docker Compose setup:
 
 The local development environment is based on Docker Compose.
 
-`pnpm dev:up` starts all services (frontend, backend, database).
-`pnpm dev:down` stops all services.
+`npm run dev:up` starts all services (frontend, backend, database).
+`npm run dev:down` stops all services.
 
 ## Frontend Development
 ```bash
 cd frontend
 
 # Install dependencies
-pnpm install
+npm install
 
 # Run linter
-pnpm lint
+npm run lint
 ```
 
 ### Backend Development
@@ -52,13 +52,13 @@ pnpm lint
 cd backend
 
 # Install dependencies
-pnpm install
+npm install
 
 # Lint and auto-fix
-pnpm lint
+npm run lint
 
 # Format code
-pnpm format
+npm run format
 ```
 
 ### Testing
@@ -67,16 +67,16 @@ pnpm format
 cd backend
 
 # Unit tests
-pnpm test
+npm test
 
 # Watch mode
-pnpm test:watch
+npm run test:watch
 
 # E2E tests
-pnpm test:e2e
+npm run test:e2e
 
 # Coverage
-pnpm test:cov
+npm run test:cov
 ```
 
 ## Architecture
@@ -158,7 +158,7 @@ Database credentials are in root `.env.database` file, shared by Docker Compose.
 ## Working with Docker
 
 The project uses Docker Compose for development with:
-- **Automatic dependency installation**: pnpm installs on container start
+- **Automatic dependency installation**: npm installs on container start
 - **Volume mounting**: Source code is mounted for hot reload
 - **Network**: All services share `the-perfect-boilerplate-network`
 - **Health checks**: Database has health check before backend starts
@@ -168,8 +168,7 @@ Dependencies are installed inside containers, so local `node_modules` may differ
 
 ## Important Notes
 
-- This is a monorepo using pnpm workspaces (root + frontend + backend)
+- This is a monorepo (root + frontend + backend)
 - All services are designed to run in Docker for development
-- Frontend and backend have separate pnpm workspaces
 - API routes are prefixed with `/api/v1` globally
 - Use environment-specific API URLs (different for client vs server-side rendering)

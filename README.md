@@ -8,7 +8,7 @@ A modern, production-ready full-stack boilerplate with Next.js, NestJS, PostgreS
 - **Backend**: NestJS 11 + TypeScript
 - **Database**: PostgreSQL 17
 - **Dev Environment**: Docker Compose
-- **Package Manager**: pnpm with workspaces
+- **Package Manager**: npm
 
 ## Quick Start
 
@@ -18,7 +18,7 @@ git clone https://github.com/evedes/the-perfect-boilerplate.git
 cd the-perfect-boilerplate
 
 # Start all services (frontend, backend, database)
-pnpm dev:up
+npm run dev:up
 ```
 
 Your application is now running:
@@ -28,7 +28,7 @@ Your application is now running:
 
 To stop all services:
 ```bash
-pnpm dev:down
+npm run dev:down
 ```
 
 ## Project Structure
@@ -53,31 +53,31 @@ The project uses Docker Compose for local development. All dependencies are auto
 
 ```bash
 cd frontend
-pnpm install      # Install dependencies
-pnpm dev          # Run dev server (with Turbopack)
-pnpm build        # Build for production
-pnpm lint         # Run linter
+npm install       # Install dependencies
+npm run dev       # Run dev server (with Turbopack)
+npm run build     # Build for production
+npm run lint      # Run linter
 ```
 
 ### Backend Development
 
 ```bash
 cd backend
-pnpm install      # Install dependencies
-pnpm start:dev    # Run in watch mode
-pnpm build        # Build for production
-pnpm lint         # Run linter
-pnpm format       # Format code
+npm install       # Install dependencies
+npm run start:dev # Run in watch mode
+npm run build     # Build for production
+npm run lint      # Run linter
+npm run format    # Format code
 ```
 
 ### Testing
 
 ```bash
 cd backend
-pnpm test         # Run unit tests
-pnpm test:watch   # Run tests in watch mode
-pnpm test:e2e     # Run E2E tests
-pnpm test:cov     # Run with coverage
+npm test          # Run unit tests
+npm run test:watch # Run tests in watch mode
+npm run test:e2e  # Run E2E tests
+npm run test:cov  # Run with coverage
 ```
 
 ## Environment Variables
@@ -112,7 +112,7 @@ POSTGRES_PORT=5432
 - ✅ Next.js 15 with Turbopack
 - ✅ NestJS with ConfigModule
 - ✅ PostgreSQL with health checks
-- ✅ pnpm workspaces for monorepo management
+- ✅ npm for package management
 
 ## Architecture Highlights
 
