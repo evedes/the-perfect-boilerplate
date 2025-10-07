@@ -91,10 +91,23 @@ pnpm run test:cov  # Run with coverage
 ```env
 NODE_ENV=development
 API_PORT=3001
+
+# PostgreSQL Database (required for Drizzle ORM)
+POSTGRES_USER=root
+POSTGRES_PASSWORD=root
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+POSTGRES_DB=the-perfect-boilerplate
+
+# Database Seeding (optional - defaults provided)
+SEED_USER_EMAIL=demo@example.com
+SEED_USER_FIRST_NAME=Demo
+SEED_USER_LAST_NAME=User
 ```
 
 ### Frontend (.env)
 ```env
+NODE_ENV=development
 NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1  # Client-side
 API_URL=http://backend:3001/api/v1                # Server-side (SSR)
 ```
@@ -108,23 +121,29 @@ POSTGRES_HOST=db
 POSTGRES_PORT=5432
 ```
 
-**Note**:
-- Copy `database/.env.example` to `database/.env` and update with your credentials
-- Backend `.env` also includes database credentials for Drizzle ORM configuration
+**Setup Instructions**:
+1. Copy `database/.env.example` to `database/.env`
+2. Copy `backend/.env.example` to `backend/.env` (includes database credentials)
+3. Copy `frontend/.env.example` to `frontend/.env`
+4. Update credentials as needed (defaults work for local development)
 
 ## Features
 
 - ✅ Modern TypeScript setup across the stack
 - ✅ Docker Compose for easy local development
 - ✅ Hot reload for both frontend and backend
-- ✅ ESLint + Prettier configured
-- ✅ Next.js 15.5.4 with Turbopack
-- ✅ NestJS 11 with ConfigModule
-- ✅ PostgreSQL 17 with Drizzle ORM
+- ✅ ESLint + Prettier configured for both frontend and backend
+- ✅ Next.js 15.5.4 with Turbopack (dev and build)
+- ✅ React 19.1.0 with App Router
+- ✅ NestJS 11 with ConfigModule for environment management
+- ✅ PostgreSQL 17 with Drizzle ORM 0.44.6
 - ✅ Type-safe database schema and migrations with Drizzle Kit
-- ✅ shadcn/ui components integration (Base UI + Tailwind)
-- ✅ Dark/Light theme toggle with context provider
-- ✅ pnpm workspace for monorepo management
+- ✅ Database seeding with conflict handling
+- ✅ basecn/ui components integration (Base UI + Tailwind CSS 4)
+- ✅ Dark/Light theme toggle using next-themes
+- ✅ Tailwind CSS 4 with PostCSS (using `@theme` inline syntax)
+- ✅ Server-side API health check with timeout handling
+- ✅ Monorepo structure with independent frontend/backend packages
 
 ## Architecture Highlights
 
@@ -138,22 +157,27 @@ POSTGRES_PORT=5432
 - Jest 30 for testing
 
 ### Frontend
-- Next.js App Router (App Directory structure)
-- Tailwind CSS 4 with PostCSS
-- shadcn/ui components (@base-ui-components/react)
-- Theme system with dark/light mode toggle (ThemeContext)
+- Next.js 15.5.4 App Router (App Directory structure)
+- React 19.1.0 with Server Components
+- Tailwind CSS 4 with PostCSS (`@theme` inline syntax in `globals.css`)
+- basecn/ui components (@base-ui-components/react)
+- Theme system with dark/light mode toggle (next-themes)
 - `cn()` utility for conditional class merging (clsx + tailwind-merge)
 - Separate API URLs for client/server rendering
-- Turbopack for faster builds
-- Lucide React icons
+- Server-side API health check (`checkApiHealth()` in `lib/api.ts`)
+- Turbopack for faster dev and production builds
+- Lucide React icons (Moon, Sun, etc.)
+- Geist Sans and Geist Mono fonts
 
 ### Database
 - PostgreSQL 17 with persistent volumes
-- Drizzle ORM for type-safe database operations
-- Schema-first migrations with Drizzle Kit
-- Connection pooling with `pg` driver
-- Health check before backend starts
-- Isolated Docker network
+- Drizzle ORM 0.44.6 for type-safe database operations
+- Schema-first migrations with Drizzle Kit 0.31.5
+- Connection pooling with `pg` driver (pg 8.16.3)
+- Database seeding script (`backend/src/db/seed.ts`) with conflict handling
+- Health check before backend starts (Docker Compose)
+- Isolated Docker network (`the-perfect-boilerplate-network`)
+- Current schema: `users` table with UUID primary key, email (unique), names, timestamps
 
 ## License
 

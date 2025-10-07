@@ -106,20 +106,23 @@ Key backend configuration:
 ### Frontend Architecture
 
 - **Framework**: Next.js 15.5.4 with App Router
-- **Entry Point**: `frontend/src/app/page.tsx`
-- **Layout**: `frontend/src/app/layout.tsx`
-- **Styling**: Tailwind CSS 4 with PostCSS
+- **Entry Point**: `frontend/src/app/page.tsx` - displays API health check and profile
+- **Layout**: `frontend/src/app/layout.tsx` - configures fonts, metadata, and theme provider
+- **Styling**: Tailwind CSS 4 with PostCSS (using `@theme` inline syntax, no traditional config file)
 - **Build Tool**: Turbopack (enabled for both dev and build)
-- **UI Components**: shadcn/ui setup with @base-ui-components/react
-- **Component Library Config**: `frontend/components.json` - shadcn/ui configuration (New York style)
-- **Theme System**: `frontend/src/contexts/ThemeContext.tsx` - provides dark/light mode toggle
+- **UI Components**: basecn/ui setup with @base-ui-components/react
+- **Component Library Config**: `frontend/components.json` - basecn/ui configuration (New York style)
+- **Theme System**: Uses `next-themes` package with `ThemeProvider` in layout
 - **UI Components**: `frontend/src/components/ui/` - Button, Avatar, ThemeToggle, Profile components
+- **Theme Toggle**: `frontend/src/components/ui/ThemeToggle/index.tsx` - uses `next-themes` `useTheme()` hook
 - **Utilities**: `frontend/src/lib/utils.ts` - `cn()` helper (clsx + tailwind-merge)
-- **Icons**: Lucide React for icon components
+- **API Client**: `frontend/src/lib/api.ts` - server-side API health check function
+- **Icons**: Lucide React for icon components (Moon, Sun used in ThemeToggle)
 
 API communication:
 - Client-side: Uses `NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1`
-- Server-side: Uses `API_URL=http://backend:3001/api/v1` (Docker network)
+- Server-side (SSR): Uses `API_URL=http://backend:3001/api/v1` (Docker network)
+- Health check: `checkApiHealth()` function with 5s timeout and error handling
 
 ### Database
 
@@ -147,13 +150,20 @@ PostgreSQL 17 configuration (defined in `database/.env`):
 NODE_ENV=development
 API_PORT=3001
 
-# PostgreSQL Database (also required for Drizzle ORM)
+# PostgreSQL Database (required for Drizzle ORM)
 POSTGRES_USER=root
 POSTGRES_PASSWORD=root
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
 POSTGRES_DB=the-perfect-boilerplate
+
+# Database Seeding (optional - defaults provided)
+SEED_USER_EMAIL=demo@example.com
+SEED_USER_FIRST_NAME=Demo
+SEED_USER_LAST_NAME=User
 ```
+
+**Note**: Backend needs database credentials for Drizzle ORM. When running in Docker, the backend container loads both `database/.env` and `backend/.env` files.
 
 ### Frontend (.env)
 ```
@@ -181,8 +191,9 @@ Database credentials are in `database/.env` file, shared by Docker Compose. Copy
 ### Frontend
 - Next.js 15.5.4 with Turbopack
 - React 19.1.0
-- Tailwind CSS 4 (PostCSS)
-- @base-ui-components/react 1.0.0-beta.4 (shadcn/ui foundation)
+- Tailwind CSS 4 (PostCSS-based, using `@theme` inline syntax)
+- @base-ui-components/react 1.0.0-beta.4 (basecn/ui foundation)
+- next-themes 0.4.6 (theme management)
 - class-variance-authority 0.7.1 (CVA for component variants)
 - clsx 2.1.1 + tailwind-merge 3.3.1 (className utilities)
 - lucide-react 0.544.0 (icon library)
@@ -210,12 +221,15 @@ Dependencies are installed inside containers, so local `node_modules` may differ
 
 ## Important Notes
 
-- This is a monorepo (root + frontend + backend)
+- This is a monorepo structure (root + frontend + backend packages)
 - All services are designed to run in Docker for development
-- API routes are prefixed with `/api/v1` globally
+- API routes are prefixed with `/api/v1` globally (configured in `backend/src/main.ts`)
 - Use environment-specific API URLs (different for client vs server-side rendering)
 - Database schema changes require running `pnpm run db:generate` to create migrations
 - Use `DATABASE_CONNECTION` token to inject Drizzle instance in NestJS services
-- Frontend uses shadcn/ui with Base UI components (not the traditional shadcn/ui setup)
-- Theme system is implemented via React Context (`ThemeContext.tsx`)
+- Frontend uses basecn/ui with Base UI components (not the traditional basecn/ui setup)
+- Theme system uses `next-themes` package, not a custom React Context
+- Tailwind CSS 4 uses `@theme` inline syntax in `globals.css` instead of traditional config file
 - All UI components use the `cn()` utility for conditional class merging
+- Backend controller (`app.controller.ts`) provides a simple ping endpoint at `/api/v1`
+- Database seeding uses `onConflictDoNothing()` to prevent duplicate entries
