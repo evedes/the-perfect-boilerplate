@@ -20,9 +20,9 @@ async function seed() {
 
   try {
     await db.insert(users).values({
-      email: 'eduardo.vedes@gmail.com',
-      firstName: 'eduardo',
-      lastName: 'vedes',
+      email: process.env.SEED_USER_EMAIL ?? 'john.doe@example.com',
+      firstName: process.env.SEED_USER_FIRST_NAME ?? 'John',
+      lastName: process.env.SEED_USER_LAST_NAME ?? 'Doe',
     });
 
     console.log('✅ Seed completed successfully!');
