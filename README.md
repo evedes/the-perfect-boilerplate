@@ -4,9 +4,9 @@ A modern, production-ready full-stack boilerplate with Next.js, NestJS, PostgreS
 
 ## Stack
 
-- **Frontend**: Next.js 15 (App Router) + React 19 + Tailwind CSS 4 + TypeScript
-- **Backend**: NestJS 11 + TypeScript
-- **Database**: PostgreSQL 17
+- **Frontend**: Next.js 15.5.4 (App Router) + React 19.1.0 + Tailwind CSS 4 + TypeScript 5
+- **Backend**: NestJS 11 + TypeScript 5.7
+- **Database**: PostgreSQL 17 with Drizzle ORM 0.44.6
 - **Dev Environment**: Docker Compose
 - **Package Manager**: pnpm (workspace monorepo)
 
@@ -68,6 +68,11 @@ pnpm run start:dev # Run in watch mode
 pnpm run build     # Build for production
 pnpm run lint      # Run linter
 pnpm run format    # Format code
+
+# Database operations
+pnpm run db:generate  # Generate migrations
+pnpm run db:migrate   # Run migrations
+pnpm run db:seed      # Seed database
 ```
 
 ### Testing
@@ -103,15 +108,20 @@ POSTGRES_HOST=db
 POSTGRES_PORT=5432
 ```
 
+**Note**: Backend `.env` also includes database credentials for Drizzle ORM configuration.
+
 ## Features
 
 - ✅ Modern TypeScript setup across the stack
 - ✅ Docker Compose for easy local development
 - ✅ Hot reload for both frontend and backend
 - ✅ ESLint + Prettier configured
-- ✅ Next.js 15 with Turbopack
-- ✅ NestJS with ConfigModule
-- ✅ PostgreSQL with health checks
+- ✅ Next.js 15.5.4 with Turbopack
+- ✅ NestJS 11 with ConfigModule
+- ✅ PostgreSQL 17 with Drizzle ORM
+- ✅ Type-safe database schema and migrations with Drizzle Kit
+- ✅ shadcn/ui components integration (Base UI + Tailwind)
+- ✅ Dark/Light theme toggle with context provider
 - ✅ pnpm workspace for monorepo management
 
 ## Architecture Highlights
@@ -120,16 +130,26 @@ POSTGRES_PORT=5432
 - Global API prefix: `/api/v1`
 - Environment-based configuration using `@nestjs/config`
 - Modular NestJS architecture
-- Jest for testing
+- Drizzle ORM with PostgreSQL connection pooling
+- Type-safe database schema (`backend/src/db/schema.ts`)
+- Database migrations and seeding support
+- Jest 30 for testing
 
 ### Frontend
-- Next.js App Router
+- Next.js App Router (App Directory structure)
 - Tailwind CSS 4 with PostCSS
+- shadcn/ui components (@base-ui-components/react)
+- Theme system with dark/light mode toggle (ThemeContext)
+- `cn()` utility for conditional class merging (clsx + tailwind-merge)
 - Separate API URLs for client/server rendering
 - Turbopack for faster builds
+- Lucide React icons
 
 ### Database
 - PostgreSQL 17 with persistent volumes
+- Drizzle ORM for type-safe database operations
+- Schema-first migrations with Drizzle Kit
+- Connection pooling with `pg` driver
 - Health check before backend starts
 - Isolated Docker network
 
