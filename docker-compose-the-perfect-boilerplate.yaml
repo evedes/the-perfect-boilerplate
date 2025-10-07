@@ -5,7 +5,6 @@ services:
     restart: unless-stopped
     env_file:
       - .env.the-perfect-boilerplate
-
   the-perfect-boilerplate-frontend:
     container_name: the-perfect-boilerplate-frontend
     image: ghcr.io/evedes/the-perfect-boilerplate/frontend:latest
@@ -18,5 +17,4 @@ services:
       - the-perfect-boilerplate-backend
 
 networks:
-    vedesvps:
-        external: true
+    the-perfect-boilerplate:
