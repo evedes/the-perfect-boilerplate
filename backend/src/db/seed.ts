@@ -2,15 +2,23 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { users } from './schema';
 
+function getRequiredEnv(key: string): string {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${key}`);
+  }
+  return value;
+}
+
 async function seed() {
   const isProduction = process.env.NODE_ENV === 'production';
 
   const pool = new Pool({
-    host: process.env.POSTGRES_HOST!,
-    port: Number(process.env.POSTGRES_PORT!),
-    user: process.env.POSTGRES_USER!,
-    password: process.env.POSTGRES_PASSWORD!,
-    database: process.env.POSTGRES_DB!,
+    host: getRequiredEnv('POSTGRES_HOST'),
+    port: Number(getRequiredEnv('POSTGRES_PORT')),
+    user: getRequiredEnv('POSTGRES_USER'),
+    password: getRequiredEnv('POSTGRES_PASSWORD'),
+    database: getRequiredEnv('POSTGRES_DB'),
     ssl: isProduction ? { rejectUnauthorized: false } : false,
   });
 

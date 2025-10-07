@@ -1,4 +1,4 @@
-FROM node:22-alpine AS build
+FROM node:24-alpine AS build
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
@@ -13,7 +13,7 @@ ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 COPY . .
 RUN pnpm run build
 
-FROM node:22-alpine
+FROM node:24-alpine
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 

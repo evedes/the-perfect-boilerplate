@@ -12,7 +12,8 @@ export const DATABASE_CONNECTION = 'DATABASE_CONNECTION';
       provide: DATABASE_CONNECTION,
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const isProduction = configService.get<string>('NODE_ENV') === 'production';
+        const isProduction =
+          configService.get<string>('NODE_ENV') === 'production';
 
         const pool = new Pool({
           host: configService.get<string>('POSTGRES_HOST', 'localhost'),
