@@ -19,11 +19,14 @@ async function seed() {
   console.log('🌱 Starting seed...');
 
   try {
-    await db.insert(users).values({
-      email: process.env.SEED_USER_EMAIL ?? 'john.doe@example.com',
-      firstName: process.env.SEED_USER_FIRST_NAME ?? 'John',
-      lastName: process.env.SEED_USER_LAST_NAME ?? 'Doe',
-    });
+    await db
+      .insert(users)
+      .values({
+        email: process.env.SEED_USER_EMAIL ?? 'john.doe@example.com',
+        firstName: process.env.SEED_USER_FIRST_NAME ?? 'John',
+        lastName: process.env.SEED_USER_LAST_NAME ?? 'Doe',
+      })
+      .onConflictDoNothing();
 
     console.log('✅ Seed completed successfully!');
   } catch (error) {
