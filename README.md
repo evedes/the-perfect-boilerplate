@@ -8,7 +8,7 @@ A modern, production-ready full-stack boilerplate with Next.js, NestJS, PostgreS
 - **Backend**: NestJS 11 + TypeScript
 - **Database**: PostgreSQL 17
 - **Dev Environment**: Docker Compose
-- **Package Manager**: npm
+- **Package Manager**: pnpm (workspace monorepo)
 
 ## Quick Start
 
@@ -18,7 +18,7 @@ git clone https://github.com/evedes/the-perfect-boilerplate.git
 cd the-perfect-boilerplate
 
 # Start all services (frontend, backend, database)
-npm run dev:up
+pnpm run dev:up
 ```
 
 Your application is now running:
@@ -28,7 +28,7 @@ Your application is now running:
 
 To stop all services:
 ```bash
-npm run dev:down
+pnpm run dev:down
 ```
 
 ## Project Structure
@@ -53,31 +53,31 @@ The project uses Docker Compose for local development. All dependencies are auto
 
 ```bash
 cd frontend
-npm install       # Install dependencies
-npm run dev       # Run dev server (with Turbopack)
-npm run build     # Build for production
-npm run lint      # Run linter
+pnpm install       # Install dependencies
+pnpm run dev       # Run dev server (with Turbopack)
+pnpm run build     # Build for production
+pnpm run lint      # Run linter
 ```
 
 ### Backend Development
 
 ```bash
 cd backend
-npm install       # Install dependencies
-npm run start:dev # Run in watch mode
-npm run build     # Build for production
-npm run lint      # Run linter
-npm run format    # Format code
+pnpm install       # Install dependencies
+pnpm run start:dev # Run in watch mode
+pnpm run build     # Build for production
+pnpm run lint      # Run linter
+pnpm run format    # Format code
 ```
 
 ### Testing
 
 ```bash
 cd backend
-npm test          # Run unit tests
-npm run test:watch # Run tests in watch mode
-npm run test:e2e  # Run E2E tests
-npm run test:cov  # Run with coverage
+pnpm test          # Run unit tests
+pnpm run test:watch # Run tests in watch mode
+pnpm run test:e2e  # Run E2E tests
+pnpm run test:cov  # Run with coverage
 ```
 
 ## Environment Variables
@@ -112,7 +112,7 @@ POSTGRES_PORT=5432
 - ✅ Next.js 15 with Turbopack
 - ✅ NestJS with ConfigModule
 - ✅ PostgreSQL with health checks
-- ✅ npm for package management
+- ✅ pnpm workspace for monorepo management
 
 ## Architecture Highlights
 

@@ -9,7 +9,7 @@ This is a full-stack monorepo boilerplate with:
 - **Backend**: NestJS 11 (TypeScript)
 - **Database**: PostgreSQL 17
 - **Container Orchestration**: Docker Compose
-- **Package Manager**: npm
+- **Package Manager**: pnpm
 
 ## Development Environment
 
@@ -17,10 +17,10 @@ This is a full-stack monorepo boilerplate with:
 
 ```bash
 # Start all services (frontend, backend, database)
-npm run dev:up
+pnpm run dev:up
 
 # Stop all services
-npm run dev:down
+pnpm run dev:down
 ```
 
 The Docker Compose setup:
@@ -32,18 +32,18 @@ The Docker Compose setup:
 
 The local development environment is based on Docker Compose.
 
-`npm run dev:up` starts all services (frontend, backend, database).
-`npm run dev:down` stops all services.
+`pnpm run dev:up` starts all services (frontend, backend, database).
+`pnpm run dev:down` stops all services.
 
 ## Frontend Development
 ```bash
 cd frontend
 
 # Install dependencies
-npm install
+pnpm install
 
 # Run linter
-npm run lint
+pnpm run lint
 ```
 
 ### Backend Development
@@ -52,13 +52,13 @@ npm run lint
 cd backend
 
 # Install dependencies
-npm install
+pnpm install
 
 # Lint and auto-fix
-npm run lint
+pnpm run lint
 
 # Format code
-npm run format
+pnpm run format
 ```
 
 ### Testing
@@ -67,16 +67,16 @@ npm run format
 cd backend
 
 # Unit tests
-npm test
+pnpm test
 
 # Watch mode
-npm run test:watch
+pnpm run test:watch
 
 # E2E tests
-npm run test:e2e
+pnpm run test:e2e
 
 # Coverage
-npm run test:cov
+pnpm run test:cov
 ```
 
 ## Architecture
@@ -158,7 +158,7 @@ Database credentials are in root `.env.database` file, shared by Docker Compose.
 ## Working with Docker
 
 The project uses Docker Compose for development with:
-- **Automatic dependency installation**: npm installs on container start
+- **Automatic dependency installation**: pnpm installs on container start
 - **Volume mounting**: Source code is mounted for hot reload
 - **Network**: All services share `the-perfect-boilerplate-network`
 - **Health checks**: Database has health check before backend starts
