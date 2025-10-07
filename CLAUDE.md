@@ -123,11 +123,15 @@ API communication:
 
 ### Database
 
-PostgreSQL 17 configuration (defined in `.env.database`):
+PostgreSQL 17 configuration (defined in `database/.env`):
 - Database: `the-perfect-boilerplate`
 - User/Password: `root/root` (development only)
 - Host: `db` (Docker network) or `localhost` (local)
 - Port: 5432
+
+**Environment Setup**:
+- Copy `database/.env.example` to `database/.env` and configure credentials
+- Backend `.env` must also include the same database credentials for Drizzle ORM
 
 **Drizzle ORM Configuration**:
 - **Config File**: `backend/drizzle.config.js` - configures schema path, migrations directory, and database credentials
@@ -157,8 +161,8 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1  # Client-side
 API_URL=http://backend:3001/api/v1                # Server-side (SSR)
 ```
 
-### Database (.env.database)
-Database credentials are in root `.env.database` file, shared by Docker Compose.
+### Database (database/.env)
+Database credentials are in `database/.env` file, shared by Docker Compose. Copy from `database/.env.example`.
 
 ## Code Quality Tools
 

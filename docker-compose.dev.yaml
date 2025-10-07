@@ -7,7 +7,7 @@ services:
     ports:
       - 5432:5432
     env_file:
-      - .env.database
+      - ./database/.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     cap_add:
@@ -42,6 +42,7 @@ services:
     container_name: the-perfect-boilerplate-backend
     command: sh -c "cd /app && corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm run db:migrate && pnpm run db:seed && pnpm run start:dev"
     env_file:
+      - ./database/.env
       - ./backend/.env
     ports:
       - 3001:3001

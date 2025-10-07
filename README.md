@@ -99,7 +99,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1  # Client-side
 API_URL=http://backend:3001/api/v1                # Server-side (SSR)
 ```
 
-### Database (.env.database)
+### Database (database/.env)
 ```env
 POSTGRES_USER=root
 POSTGRES_PASSWORD=root
@@ -108,7 +108,9 @@ POSTGRES_HOST=db
 POSTGRES_PORT=5432
 ```
 
-**Note**: Backend `.env` also includes database credentials for Drizzle ORM configuration.
+**Note**:
+- Copy `database/.env.example` to `database/.env` and update with your credentials
+- Backend `.env` also includes database credentials for Drizzle ORM configuration
 
 ## Features
 
