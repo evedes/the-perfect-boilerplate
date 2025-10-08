@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run TypeScript checks and build for both frontend and backend
+echo "🔍 Running TypeScript checks and build on backend..."
+cd backend && pnpm run build
+
+echo "🔍 Running TypeScript checks and build on frontend..."
+cd ../frontend && pnpm run build
+
+echo "✅ Pre-push checks passed!"

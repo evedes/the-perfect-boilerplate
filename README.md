@@ -160,7 +160,7 @@ POSTGRES_PORT=5432
 - Next.js 15.5.4 App Router (App Directory structure)
 - React 19.1.0 with Server Components
 - Tailwind CSS 4 with PostCSS (`@theme` inline syntax in `globals.css`)
-- basecn/ui components (@base-ui-components/react)
+- Basecn/ui components (@base-ui-components/react)
 - Theme system with dark/light mode toggle (next-themes)
 - `cn()` utility for conditional class merging (clsx + tailwind-merge)
 - Separate API URLs for client/server rendering

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useSession, signOut } from '@/lib/auth-client';
-import { Button } from '@/components/ui/Button';
+import { useSession, signOut } from "@/lib/auth-client";
+import { Button } from "../ui/button";
 
 export function UserSession() {
   const { data: session, isPending } = useSession();
@@ -20,11 +20,7 @@ export function UserSession() {
         <p className="font-medium">{session.user.name}</p>
         <p className="text-gray-600">{session.user.email}</p>
       </div>
-      <Button
-        onClick={() => signOut()}
-        variant="outline"
-        size="sm"
-      >
+      <Button onClick={() => signOut()} variant="outline" size="sm">
         Sign Out
       </Button>
     </div>

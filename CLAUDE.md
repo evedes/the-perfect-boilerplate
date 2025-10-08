@@ -185,7 +185,10 @@ BETTER_AUTH_SECRET=your-secret-key-change-this-in-production
 BETTER_AUTH_URL=http://localhost:3001
 ```
 
-**Note**: Backend needs database credentials for Drizzle ORM. When running in Docker, the backend container loads both `database/.env` and `backend/.env` files.
+**Note**:
+- Backend needs database credentials for Drizzle ORM
+- When running in Docker, the backend container loads both `database/.env` and `backend/.env` files
+- `POSTGRES_HOST` is overridden to `db` in docker-compose.dev.yaml for Docker networking
 
 ### Frontend (.env)
 ```
@@ -207,6 +210,21 @@ Database credentials are in `database/.env` file, shared by Docker Compose. Copy
 - **Linter**: ESLint 9 with TypeScript-ESLint
 - **Formatter**: Prettier
 - **Type Checking**: TypeScript 5.7
+
+### Git Hooks (Husky)
+
+The repository uses Husky for Git hooks to ensure code quality:
+
+**Pre-commit hook** (runs on `git commit`):
+- Runs `lint-staged` on both frontend and backend
+- Frontend: ESLint + Prettier on `*.{ts,tsx}` files, Prettier on `*.{css,json,md}`
+- Backend: ESLint + Prettier on `*.ts` files
+
+**Pre-push hook** (runs on `git push`):
+- Runs TypeScript compilation and build on backend (`pnpm run build`)
+- Runs TypeScript compilation and build on frontend (`pnpm run build`)
+
+These hooks help catch issues before they reach the repository.
 
 ## Key Dependencies
 
@@ -256,3 +274,5 @@ The project uses Docker Compose for development with:
 - BetterAuth handles user registration/authentication - no manual seeding required
 - Authentication routes are available at `/api/v1/auth/*`
 - Use BetterAuth React hooks (`useSession`, `signIn`, `signUp`, `signOut`) for frontend auth
+- Git hooks (Husky) automatically run linting and type-checking on commit/push
+- To skip git hooks in emergency, use `git commit --no-verify` or `git push --no-verify`

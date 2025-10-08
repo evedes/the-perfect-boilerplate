@@ -40,10 +40,12 @@ services:
     image: node:24-alpine
     hostname: backend
     container_name: the-perfect-boilerplate-backend
-    command: sh -c "cd /app && corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm run db:migrate && pnpm run db:seed && pnpm run start:dev"
+    command: sh -c "cd /app && corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm run db:migrate && pnpm run start:dev"
     env_file:
       - ./database/.env
       - ./backend/.env
+    environment:
+      - POSTGRES_HOST=db
     ports:
       - 3001:3001
     volumes:
