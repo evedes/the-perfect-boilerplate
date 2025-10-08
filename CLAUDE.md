@@ -170,6 +170,9 @@ PostgreSQL 17 configuration (defined in `database/.env`):
 NODE_ENV=development
 API_PORT=3001
 
+# CORS - comma-separated list of allowed origins (ignored in development, uses * instead)
+ALLOWED_ORIGINS=https://your-production-domain.com
+
 # PostgreSQL Database (required for Drizzle ORM)
 POSTGRES_USER=root
 POSTGRES_PASSWORD=root
@@ -187,7 +190,7 @@ BETTER_AUTH_URL=http://localhost:3001
 ### Frontend (.env)
 ```
 NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1  # Client-side
-API_URL=http://backend:3001/api/v1                # Server-side (SSR)
+API_URL=http://backend:3001/api/v1              # Server-side (SSR) - use http://backend:3001/api/v1 in Docker
 ```
 
 ### Database (database/.env)
@@ -241,7 +244,8 @@ The project uses Docker Compose for development with:
 
 - All services are designed to run in Docker for development
 - API routes are prefixed with `/api/v1` globally (configured in `backend/src/main.ts`)
-- Use environment-specific API URLs (different for client vs server-side rendering)
+- Use environment-specific API URLs (different for client vs server-side rendering and Docker vs local)
+- Backend CORS is configured via `ALLOWED_ORIGINS` env var (development mode uses `*` for convenience)
 - Database schema changes require running `pnpm run db:generate` to create migrations
 - Use `DATABASE_CONNECTION` token to inject Drizzle instance in NestJS services
 - Frontend uses basecn/ui with Base UI components (not the traditional basecn/ui setup)
