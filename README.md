@@ -8,7 +8,7 @@ A modern, production-ready full-stack boilerplate with Next.js, NestJS, PostgreS
 - **Backend**: NestJS 11 + TypeScript 5.7
 - **Database**: PostgreSQL 17 with Drizzle ORM 0.44.6
 - **Dev Environment**: Docker Compose
-- **Package Manager**: pnpm (workspace monorepo)
+- **Package Manager**: pnpm
 
 ## Quick Start
 
