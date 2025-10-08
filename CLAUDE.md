@@ -4,10 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a full-stack monorepo boilerplate with:
+This is a full-stack boilerplate with:
 - **Frontend**: Next.js 15.5.4 (React 19.1.0, Tailwind CSS 4, TypeScript 5)
 - **Backend**: NestJS 11 (TypeScript 5.7)
 - **Database**: PostgreSQL 17 with Drizzle ORM 0.44.6
+- **Authentication**: BetterAuth 1.3.27 with email/password support
 - **Container Orchestration**: Docker Compose
 - **Package Manager**: pnpm
 
@@ -63,7 +64,6 @@ pnpm run format
 # Database operations
 pnpm run db:generate  # Generate migrations from schema
 pnpm run db:migrate   # Run migrations
-pnpm run db:seed      # Seed database with initial data
 ```
 
 ### Testing
@@ -103,6 +103,26 @@ Key backend configuration:
 - Database connection pooling with PostgreSQL
 - `DATABASE_CONNECTION` provider for injecting Drizzle instance
 
+### Authentication Architecture
+
+- **Framework**: BetterAuth 1.3.27 with Drizzle ORM adapter
+- **Auth Configuration**: `backend/src/auth/auth.ts` - BetterAuth instance with email/password enabled
+- **Auth Module**: `backend/src/auth/auth.module.ts` - NestJS module for authentication
+- **Auth Controller**: `backend/src/auth/auth.controller.ts` - handles all `/api/v1/auth/*` routes
+- **Database Index**: `backend/src/db/index.ts` - exports Drizzle instance for BetterAuth
+- **Auth Tables**: `backend/src/db/schema.ts` - includes `user`, `session`, `account`, and `verification` tables
+
+Auth endpoints:
+- Authentication routes are available at `/api/v1/auth/*`
+- Supports email/password sign-up and sign-in
+- Session management with token-based authentication
+- Frontend client configured in `frontend/src/lib/auth-client.ts`
+
+Auth components:
+- `frontend/src/components/auth/SignInForm.tsx` - sign-in/sign-up form component
+- `frontend/src/components/auth/UserSession.tsx` - displays user session and sign-out button
+- Uses BetterAuth React hooks: `useSession`, `signIn`, `signUp`, `signOut`
+
 ### Frontend Architecture
 
 - **Framework**: Next.js 15.5.4 with App Router
@@ -138,10 +158,10 @@ PostgreSQL 17 configuration (defined in `database/.env`):
 
 **Drizzle ORM Configuration**:
 - **Config File**: `backend/drizzle.config.js` - configures schema path, migrations directory, and database credentials
-- **Schema**: `backend/src/db/schema.ts` - type-safe table definitions (e.g., `users` table)
+- **Schema**: `backend/src/db/schema.ts` - type-safe table definitions for BetterAuth tables
 - **Migrations**: `backend/src/db/migrations/` - auto-generated migration files
-- **Seeding**: `backend/src/db/seed.ts` - database seeding script
 - **Database Module**: `backend/src/db/db.module.ts` - provides Drizzle connection via `DATABASE_CONNECTION` token
+- **Database Index**: `backend/src/db/index.ts` - exports Drizzle instance for BetterAuth
 
 ## Environment Variables
 
@@ -153,14 +173,13 @@ API_PORT=3001
 # PostgreSQL Database (required for Drizzle ORM)
 POSTGRES_USER=root
 POSTGRES_PASSWORD=root
-POSTGRES_HOST=db
+POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 POSTGRES_DB=the-perfect-boilerplate
 
-# Database Seeding (optional - defaults provided)
-SEED_USER_EMAIL=demo@example.com
-SEED_USER_FIRST_NAME=Demo
-SEED_USER_LAST_NAME=User
+# BetterAuth
+BETTER_AUTH_SECRET=your-secret-key-change-this-in-production
+BETTER_AUTH_URL=http://localhost:3001
 ```
 
 **Note**: Backend needs database credentials for Drizzle ORM. When running in Docker, the backend container loads both `database/.env` and `backend/.env` files.
@@ -205,6 +224,7 @@ Database credentials are in `database/.env` file, shared by Docker Compose. Copy
 - Drizzle ORM 0.44.6 for database operations
 - Drizzle Kit 0.31.5 for migrations and schema management
 - pg 8.16.3 (PostgreSQL driver)
+- BetterAuth 1.3.27 for authentication
 - Jest 30 for testing
 - Reflect-metadata for decorators
 
@@ -217,11 +237,8 @@ The project uses Docker Compose for development with:
 - **Health checks**: Database has health check before backend starts
 - **Persistent data**: PostgreSQL data persists in named volume
 
-Dependencies are installed inside containers, so local `node_modules` may differ from container versions.
-
 ## Important Notes
 
-- This is a monorepo structure (root + frontend + backend packages)
 - All services are designed to run in Docker for development
 - API routes are prefixed with `/api/v1` globally (configured in `backend/src/main.ts`)
 - Use environment-specific API URLs (different for client vs server-side rendering)
@@ -232,4 +249,6 @@ Dependencies are installed inside containers, so local `node_modules` may differ
 - Tailwind CSS 4 uses `@theme` inline syntax in `globals.css` instead of traditional config file
 - All UI components use the `cn()` utility for conditional class merging
 - Backend controller (`app.controller.ts`) provides a simple ping endpoint at `/api/v1`
-- Database seeding uses `onConflictDoNothing()` to prevent duplicate entries
+- BetterAuth handles user registration/authentication - no manual seeding required
+- Authentication routes are available at `/api/v1/auth/*`
+- Use BetterAuth React hooks (`useSession`, `signIn`, `signUp`, `signOut`) for frontend auth
